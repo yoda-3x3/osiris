@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 export async function GET() {
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd', { signal: AbortSignal.timeout(15000),
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd', {
+      signal: AbortSignal.timeout(15000),
       next: { revalidate: 60 } // cache for 60 seconds
     });
     
@@ -23,5 +26,3 @@ export async function GET() {
     return NextResponse.json([]); // Return empty if entirely failed, no static fallbacks
   }
 }
-
-
